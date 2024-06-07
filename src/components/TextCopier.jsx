@@ -1,76 +1,69 @@
 import React, { useState } from "react";
-import "@fortawesome/fontawesome-free/css/all.min.css"; // Import Font Awesome CSS
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
-const TextCopier = () => {
-  const [sourceText, setSourceText] = useState("");
-  const [copiedText, setCopiedText] = useState("");
-  const [destinationText, setDestinationText] = useState("");
+const DynamicInputBars = () => {
+  const [inputBars, setInputBars] = useState([]);
 
-  const handleCopy = () => {
-    setCopiedText(sourceText);
+  const addInputBar = () => {
+    const newInputBars = inputBars.slice(); // Create a copy of the original array
+    // console.log(inputBars.length)
+    newInputBars.push(inputBars.length); // Add the new input bar
+    setInputBars(newInputBars); // Update the state with the new array
   };
 
-  const handlePaste = () => {
-    setDestinationText(copiedText);
+  const removeInputBar = (indexToRemove) => {
+    console.log(`"indexToRemove": ${indexToRemove}`);
+    const updatedInputBars = [];
+    for (let i = 0; i < inputBars.length; i++) {
+      if (inputBars[i] !== indexToRemove) {
+        updatedInputBars.push(inputBars[i]);
+      }
+    }
+    // console.log("Rawf Case bruh")
+    // for(let i = 0; i < updatedInputBars.length; i++){
+    //   console.log(updatedInputBars[i])
+    // }
+    setInputBars(updatedInputBars);
   };
 
   return (
     <div>
-      <h1>The Area of Text Happennings</h1>
-
-      <div
-        style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}
-      >
-        <input
-          type="text"
-          value={sourceText}
-          onChange={(e) => setSourceText(e.target.value)}
-          placeholder="Enter text here..."
-          style={{ width: "250px", height: "30px", marginRight: "10px" }}
-        />
-        <button
-          onClick={handleCopy}
-          style={{ width: "110px", height: "40px", fontSize: "14px" }}
-        >
-          <i className="fas fa-copy"></i> Copy the Previous Text
-        </button>
-      </div>
-
-      <hr />
-      <hr />
-
-      {/* Source Input */}
+      <h1>Making more Input Bars</h1>
+      {/* Main Input Bar */}
       <input
         type="text"
-        value={sourceText}
-        onChange={(e) => setSourceText(e.target.value)}
         placeholder="Enter text here..."
-        style={{ width: "300px", margin: "10px" }}
+        style={{
+          width: "300px",
+          height: "30px",
+          marginBottom: "10px",
+          marginRight: "10px",
+        }}
       />
-      <br />
 
-      {/* Copy Button */}
-      <button onClick={handleCopy} style={{ margin: "10px" }}>
-        <i className="fas fa-copy"></i> Copy Text
+      {/* Add Button */}
+      <button onClick={addInputBar} style={{ marginBottom: "10px" }}>
+        Add Input Bar
       </button>
-      <br />
 
-      {/* Destination Input */}
-      <input
-        type="text"
-        value={destinationText}
-        onChange={(e) => setDestinationText(e.target.value)}
-        placeholder="Paste text here..."
-        style={{ width: "300px", margin: "10px" }}
-      />
-      <br />
-
-      {/* Paste Button */}
-      <button onClick={handlePaste} style={{ margin: "10px" }}>
-        <i className="fas fa-paste"></i> Paste Text
-      </button>
+      {/* Rendered Input Bars */}
+      {inputBars.map((index) => (
+        <div key={index} style={{ marginBottom: "10px" }}>
+          <input
+            type="text"
+            placeholder={`Input Bar ${index}`}
+            style={{ width: "300px", height: "30px", marginRight: "10px" }}
+          />
+          <button
+            onClick={() => removeInputBar(index)}
+            style={{ padding: "5px" }}
+          >
+            <i className="fas fa-trash"></i>
+          </button>
+        </div>
+      ))}
     </div>
   );
 };
 
-export default TextCopier;
+export default DynamicInputBars;
