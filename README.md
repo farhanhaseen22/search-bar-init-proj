@@ -3,8 +3,9 @@
 ---
 
 sentry io
-react calendar library
-react install spinner
+
+npm i react-calendar
+npm i react-spinners
 
 ---
 
